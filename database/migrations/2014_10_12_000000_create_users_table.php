@@ -14,39 +14,27 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create(
-            'users', function (Blueprint $table) {
+            'users',
+            function (Blueprint $table) {
                 $table->bigIncrements('id');
-                $table->unsignedBigInteger('role_id')->default(1);
-                $table->integer('isActive')->index()->default(0); // 0 = incomreg 1 = accountactive 2 = accountdeactivate
-                $table->string('name');
+                $table->string('surname')->index();
+                $table->string('first_name')->index();
+                $table->string('email')->index()->unique();
+                $table->string('phone_number')->index()->unique();
+                $table->enum('role_id', [1, 2, 3, 4])->index()->default(4);
                 $table->string('title')->nullable();
-                $table->string('phone_number')->unique()->nullable();
-                $table->unsignedBigInteger('country_id')->nullable();
-                $table->unsignedBigInteger('region_id')->nullable();
-                $table->unsignedBigInteger('city_id')->nullable();
-
                 $table->longText('address')->nullable();
-                $table->string('revenue')->nullable();
-                $table->integer('orders_out')->default(0);
-                $table->integer('orders_in')->default(0);
-                $table->string('email')->unique();
-                $table->string('imageurl')->nullable();
-                $table->string('avatar')->nullable();
-                $table->string('identification')->nullable();
+                $table->boolean('isActive')->index()->default(true);
+                $table->timestamp('email_verified_at')->nullable();
+                $table->string('password');
+                $table->float('earnings')->nullable();
+                $table->string('avatar', 2048)->nullable();
                 $table->string('security_question')->nullable();
                 $table->longText('security_answer')->nullable();
                 $table->longText('access_code')->nullable();
-
-                $table->integer('ratings')->default(5);
-                $table->unsignedBigInteger('ratings_count')->default(1);
-                $table->boolean('canApply')->default(false);
-                $table->string('linkedln')->unique()->nullable();
-                $table->longText('bio')->nullable();
-                $table->timestamp('email_verified_at')->nullable();
-                $table->string('password')->nullable();
-
-                $table->rememberToken();
                 $table->timestamps();
+                $table->rememberToken();
+                $table->softDeletes();
             }
         );
     }

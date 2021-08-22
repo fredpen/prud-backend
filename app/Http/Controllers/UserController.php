@@ -100,12 +100,6 @@ class UserController extends Controller
             return ResponseHelper::badRequest("Incorrect security answer");
         }
 
-        if ($request->has('identification')) {
-            $url =  $request->user()
-                ->storeMyFile($request->file('identification'), 'identifications', $request->user()->id);
-            $validatedData['identification'] = $url;
-        }
-
         unset($validatedData['security_answer']);
         $update = $user->update($validatedData);
         if (!$update) {

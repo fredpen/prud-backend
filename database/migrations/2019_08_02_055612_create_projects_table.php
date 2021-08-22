@@ -49,12 +49,12 @@ class CreateProjectsTable extends Migration
                 $table->timestamps();
                 $table->softDeletes();
 
-                $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-                $table->foreign('task_id')->references('id')->on('tasks');
-                $table->foreign('sub_task_id')->references('id')->on('sub_tasks');
-                $table->foreign('country_id')->references('id')->on('countries');
-                $table->foreign('region_id')->references('id')->on('regions');
-                $table->foreign('city_id')->references('id')->on('cities');
+                // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+                // $table->foreign('task_id')->references('id')->on('tasks');
+                // $table->foreign('sub_task_id')->references('id')->on('sub_tasks');
+                // $table->foreign('country_id')->references('id')->on('countries');
+                // $table->foreign('region_id')->references('id')->on('regions');
+                // $table->foreign('city_id')->references('id')->on('cities');
             }
         );
     }

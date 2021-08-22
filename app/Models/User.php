@@ -6,6 +6,7 @@ use App\Traits\UserTraits;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -14,56 +15,42 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable,
         UserTraits,
         HasApiTokens,
+        SoftDeletes,
         HasFactory;
 
     protected $guarded = [];
 
     protected $hidden = [
-        'password', 'security_answer', 'security_question', 'remember_token', 'identification', 'access_code'
+        'password', 'security_answer', 'security_question', 'remember_token', 'access_code'
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
-    public function likedProjects()
+    public function isSuperAdmin()
     {
-        return $this->hasMany(FavouredProject::class);
+        return intval($this->role) === 1;
     }
 
-    public function skills()
+    public function isBasicAdmin()
     {
-        return $this->hasMany(UserSkills::class);
+        return intval($this->role) === 2;
     }
 
-    public function country()
+    public function isTrustee()
     {
-        return $this->belongsTo(Country::class);
+        return intval($this->role) === 3;
     }
 
-    public function region()
+    public function isBasicUser()
     {
-        return $this->belongsTo(Region::class);
+        return intval($this->role) === 4;
     }
 
-    public function city()
+    public function wallet()
     {
-        return $this->belongsTo(City::class);
-    }
-
-    public function isAdmin()
-    {
-        return $this->role_id === 0 ? true : false;
-    }
-
-    public function isActive()
-    {
-        return $this->isActive === 1 ? true : false;
-    }
-
-    public function status()
-    {
-        return $this->isActive;
+        return $this->hasOne(Wallet::class);
     }
 
     public function myApplications()
