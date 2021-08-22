@@ -15,7 +15,7 @@ class AuthController extends Controller
 {
     public function resetPassword(Request $request)
     {
-        $request->validate(['new_password' => ['required', 'string', 'min:8']]);
+        $request->validate(['new_password' => ['required', 'string', 'min:8', 'bail']]);
 
         $user = User::query()
             ->where('email', $request->email)
@@ -70,11 +70,11 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'phone_number' => ['required', 'integer', 'max:255', "unique:users"],
-            'password' => ['required', 'string', 'min:8'],
-            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users'],
+            'first_name' => ['required', 'string', 'max:255', 'bail'],
+            'surname' => ['required', 'string', 'max:255', 'bail'],
+            'phone_number' => ['required', 'string', 'max:255', "unique:users", 'bail'],
+            'password' => ['required', 'string', 'min:8', 'bail'],
+            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:users', 'bail'],
         ]);
 
         $input = $request->all();

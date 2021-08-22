@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use App\Models\Project;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 trait UserTraits
 {
@@ -11,12 +12,12 @@ trait UserTraits
     {
         $baseUrl = Config::get('app.url');
         $extension = $requestFile->extension();
-        $randomString = "my{$location}file937840jasiu8ygbcj7383737d{$userId}";
+        $randomString = "937840jasiu8ygbcj7383737d{$userId}";
 
         $fileName = "$randomString.{$extension}";
         $url =  $requestFile->storeAs($location, $fileName);
 
-        return "{$baseUrl}/storage/{$url}";
+        return Storage::url($url);
     }
 
     public function isProfileCompleted()

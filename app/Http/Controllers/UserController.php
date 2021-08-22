@@ -8,6 +8,7 @@ use App\Helpers\Transformer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {

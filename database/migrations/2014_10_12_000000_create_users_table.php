@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
                 $table->boolean('isActive')->index()->default(true);
                 $table->timestamp('email_verified_at')->nullable();
                 $table->string('password');
-                $table->float('earnings')->nullable();
+                $table->float('earnings', 12, 2)->nullable();
                 $table->string('avatar', 2048)->nullable();
                 $table->string('security_question')->nullable();
                 $table->longText('security_answer')->nullable();
