@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserDetailsController;
 
+
+
 // others
 Route::group(['prefix' => 'misc'], function () {
     Route::get('banks',  [UserDetailsController::class, 'getBanks']);

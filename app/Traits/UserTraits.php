@@ -2,7 +2,6 @@
 
 namespace App\Traits;
 
-use App\Models\Project;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 
@@ -18,28 +17,5 @@ trait UserTraits
         $url =  $requestFile->storeAs($location, $fileName);
 
         return Storage::url($url);
-    }
-
-    public function isProfileCompleted()
-    {
-        $params = Config::get('constants.userSecurityUpdate');
-        $canSkip = Config::get('constants.canSkipBeforeApplying');
-
-        foreach ($params as $key) {
-            if (!in_array($key, $canSkip) && !$this->$key) {
-                return "{$key} is missing";
-            }
-        }
-
-        if (!$this->skills->count()) {
-            return "You have not defined your Skill set";
-        }
-
-        return true;
-    }
-
-    public function ownsProject($project_id)
-    {
-        return !!$this->projects->where('id', $project_id)->count();
     }
 }

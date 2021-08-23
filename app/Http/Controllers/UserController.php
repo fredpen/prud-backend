@@ -35,38 +35,6 @@ class UserController extends Controller
             ->user()->with(['details', 'wallet']));
     }
 
-    public function userDetailsWithId($id)
-    {
-        $user = User::where('id', $id);
-        if (!$user) {
-            return ResponseHelper::notFound('User is not available');
-        }
-
-        $userDetails = $user->with(['country:id,name', 'region:id,name', 'city:id,name', 'skills.skill:id,name'])
-            ->get(['id', 'title', 'name', 'country_id', 'region_id', 'city_id', 'address', 'email', 'avatar', 'ratings', 'bio', 'linkedln']);
-
-        $workHistoryFreelancer = $user->first()->myApplications()->where('isCompleted_task_master', '!=', null)->with('projects:description,title,created_at,id')->get(['owner_rating', 'owner_comment', 'id', 'project_id']);
-
-        $workHistoryEmployer =  $user->first()->projects()
-            ->where('completed_on', '!=', null)
-            ->with(['applications' => function ($query) {
-                $query->where('isCompleted_owner', '!=', null)
-                    ->select(['taskMaster_rating', 'taskMaster_comment', 'id', 'project_id', 'user_id', 'isCompleted_owner'])
-                    ->latest()
-                    ->first();
-            }])->get(['title', 'description', 'created_at', 'id']);
-
-        return ResponseHelper::sendSuccess(
-            [
-                'details' => Transformer::userDetails($userDetails),
-                'skills' => Transformer::skills($userDetails[0]),
-                'work_history_as_employer' => Transformer::workHistoryEmployer($workHistoryEmployer),
-                'work_history_as_freelancer' => Transformer::workHistoryFreelancer($workHistoryFreelancer)
-            ]
-
-        );
-    }
-
     public function updateUser(Request $request)
     {
         $message = "use api/user/update-security-data' for updating users's name, phone_number, email and means of identification";

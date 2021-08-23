@@ -5,17 +5,24 @@ namespace App\Http\Controllers;
 use App\Helpers\PaystackHelper;
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class UserDetailsController extends Controller
 {
     public function getBanks()
     {
+        if (Cache::has('listOfBanks')) {
+             return ResponseHelper::sendSuccess(Cache::get('listOfBanks'));
+        }
+
         $response = PaystackHelper::getBanks();
         if ($response->failed()) {
             return ResponseHelper::serverError("Could not get list of banks");
         }
 
-        return ResponseHelper::sendSuccess($response->collect()['data']);
+        $banks = $response->collect()['data'];
+        Cache::put('listOfBanks', $banks);
+        return ResponseHelper::sendSuccess($banks);
     }
 
     public function update(Request $request)

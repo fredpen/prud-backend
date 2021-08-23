@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLocationsTable extends Migration
+class CreateMbasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,10 +14,12 @@ class CreateLocationsTable extends Migration
     public function up()
     {
         Schema::create(
-            'locations', function (Blueprint $table) {
+            'mbas', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name')->index();
+                $table->boolean('status')->default(true);
                 $table->timestamps();
+                $table->softDeletes();
             }
         );
     }
@@ -29,6 +31,6 @@ class CreateLocationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('mbas');
     }
 }
