@@ -40,8 +40,9 @@ class GeneralNotification extends Notification
     public function toMail($notifiable)
     {
         return $newMessage = (new MailMessage)
-            ->greeting("Hi {$notifiable->name},")
+            ->subject($this->subject)
             ->line($this->subject)
+            ->greeting("Hi {$notifiable->first_name},")
             ->line($this->body);
 
         if ($this->link) {
@@ -54,7 +55,7 @@ class GeneralNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            "intro" => "Hi {$notifiable->name},",
+            "intro" => "Hi {$notifiable->first_name},",
             "from" => $this->from,
             "subject" => $this->subject,
             "body" => $this->body,

@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             'users',
             function (Blueprint $table) {
                 $table->bigIncrements('id');
+                $table->unsignedBigInteger('created_by')->nullable();
                 $table->string('surname')->index();
                 $table->string('first_name')->index();
                 $table->string('email')->index()->unique();

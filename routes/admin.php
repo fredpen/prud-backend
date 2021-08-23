@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Route;
 // users
 Route::prefix('users')->group(function () {
     Route::get('all',  [UsersController::class, 'all']);
+    Route::post('create',  [UsersController::class, 'create']);
 });
 
- 
+
 // Projects
 Route::prefix('project')->group(function () {
     Route::get('drafts',  [ProjectController::class, 'drafts']);

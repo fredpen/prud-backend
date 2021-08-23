@@ -30,22 +30,22 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isSuperAdmin()
     {
-        return intval($this->role) === 1;
+        return intval($this->role_id) === 1;
     }
 
     public function isBasicAdmin()
     {
-        return intval($this->role) === 2;
+        return intval($this->role_id) === 2;
     }
 
     public function isTrustee()
     {
-        return intval($this->role) === 3;
+        return intval($this->role_id) === 3;
     }
 
     public function isBasicUser()
     {
-        return intval($this->role) === 4;
+        return intval($this->role_id) === 4;
     }
 
     public function wallet()
