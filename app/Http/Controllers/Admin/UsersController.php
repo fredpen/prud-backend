@@ -11,6 +11,16 @@ use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
+    public function show(Request $request)
+    {
+        if ($request->id == 1) abort(403, "Insufficient permission");
+        $this->authorize('viewAny', User::class);
+
+       $user = User::where('id', $request->id);
+        return $user ?
+            ResponseHelper::sendSuccess($user->with(['details', 'wallet'])->get()) : ResponseHelper::notFound("Invalid user Id");
+    }
+
     public function all()
     {
         $this->authorize('viewAny', User::class);
@@ -55,11 +65,15 @@ class UsersController extends Controller
     {
         if ($request->id == 1) abort(403, "Insufficient permission");
         $user = User::where('id', $request->id)->first();
+        if (!$user) {
+            return ResponseHelper::serverError("Invalid User Id");
+        }
+
         $this->authorize('update', $user);
         $validatedData = $this->validateUpdateRequest($request, $user);
 
         unset($validatedData['id']);
-         $validatedData['password'] = bcrypt($request->password);
+        $validatedData['password'] = bcrypt($request->password);
         $update = $user->update($validatedData);
 
         if (!$update) {
@@ -68,6 +82,25 @@ class UsersController extends Controller
 
         return ResponseHelper::sendSuccess([], "User updated");
     }
+
+    public function delete(Request $request)
+    {
+        if ($request->id == 1) abort(403, "Insufficient permission");
+        $user = User::where('id', $request->id)->first();
+        if (!$user) {
+            return ResponseHelper::serverError("Invalid User Id");
+        }
+        $this->authorize('delete', $user);
+
+        $delete = $user->delete();
+
+        if (!$delete) {
+            return ResponseHelper::serverError("Could not delete the user");
+        }
+
+        return ResponseHelper::sendSuccess([], "User deleted");
+    }
+
 
     private function validateUpdateRequest(Request $request, User $user)
     {
@@ -81,7 +114,7 @@ class UsersController extends Controller
             "isActive" => ['sometimes', 'boolean'],
             'email' => $request->email != $user->email ? ["sometimes", 'string', 'email:rfc,dns', 'max:255', 'unique:users', 'bail'] : ["nullable"],
             'phone_number' => $request->phone_number != $user->phone_number ? ["sometimes", 'numeric', "unique:users", 'bail'] : ["nullable"],
-            'password' => ["sometimes", 'string', "min:6", "max:20"]
+            'password' => ["sometimes", 'string', "min:6", "max:20"],
         ]);
     }
 }

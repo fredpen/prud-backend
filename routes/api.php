@@ -9,9 +9,14 @@ use App\Http\Controllers\ProjectphotoController;
 use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserSkillsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserDetailsController;
+
+// others
+Route::group(['prefix' => 'misc'], function () {
+    Route::get('banks',  [UserDetailsController::class, 'getBanks']);
+});
 
 // auth
 Route::group(['prefix' => 'auth'], function () {
@@ -35,11 +40,8 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('update-security-data', [UserController::class, 'updateSecurityData']);
         Route::post('set-user-security', [UserController::class, 'setSecurity']);
 
-        Route::post('update-skills', [UserSkillsController::class, 'syncSkills']);
-        Route::get('my-skills', [UserSkillsController::class, 'userSkills']);
+        Route::post('update-details', [UserDetailsController::class, 'update']);
     });
-
-    Route::get('{id}/details',  [UserController::class, 'userDetailsWithId']);
 });
 
 // notification
@@ -186,37 +188,3 @@ Route::group(['prefix' => 'project/status', 'middleware' => 'auth:sanctum'], fun
 
     Route::get('completed', [ProjectApplicationController::class, 'markCompleted']);
 });
-
-
-///////////////////////////////////////////////////////////////////////
-
-
-
-
-//     Route::get('notifications', 'AccountController@notifications')->name('notifications')->middleware('auth'); //for notifications
-//     Route::get('myTasks', 'AccountController@myTasks')->name('myTasks')->middleware('auth');
-//     Route::get('region/show/ajax/{id}', 'RegionController@showAjax');//country ajax to show regions
-//     Route::get('city/show/ajax/{id}', 'CityController@showAjax');//country ajax to show city
-
-
-
-
-//     // route group for chnaging status of projects
-//     Route::name('project.')->group(function () {
-//         Route::get('projectstatus/{project}/completed', 'ProjectStatusController@completed')->name('complete');
-//         Route::get('projectstatus/{project}/live', 'ProjectStatusController@live')->name('live');
-//         Route::get('projectstatus/{project}/cancelled', 'ProjectStatusController@cancelled')->name('cancel');
-//         Route::get('projectstatus/{project}/posted', 'ProjectStatusController@posted')->name('post');
-//     });
-
-//     Route::post('/pay', 'RaveController@initialize')->name('pay');
-//     Route::post('/rave/callback', 'RaveController@callback')->name('callback');
-//     Route::get('/{project}/payment', 'RaveController@payment')->name('payment');
-
-
-
-// roles durations and other creation details
-// Route::group(['name' => 'createOPtions'], function () {
-//     Route::get('createOPtions', 'CreateOptionsController@createOPtions')->name('createOPtions');
-//     Route::get('roles', 'CreateOptionsController@roles')->name('roles');
-// });

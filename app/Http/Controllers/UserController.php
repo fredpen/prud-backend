@@ -31,7 +31,8 @@ class UserController extends Controller
 
     public function userDetails(Request $request)
     {
-        return ResponseHelper::sendSuccess($request->user());
+        return ResponseHelper::sendSuccess($request
+            ->user()->with(['details', 'wallet']));
     }
 
     public function userDetailsWithId($id)
@@ -44,7 +45,7 @@ class UserController extends Controller
         $userDetails = $user->with(['country:id,name', 'region:id,name', 'city:id,name', 'skills.skill:id,name'])
             ->get(['id', 'title', 'name', 'country_id', 'region_id', 'city_id', 'address', 'email', 'avatar', 'ratings', 'bio', 'linkedln']);
 
-         $workHistoryFreelancer = $user->first()->myApplications()->where('isCompleted_task_master', '!=', null)->with('projects:description,title,created_at,id')->get(['owner_rating', 'owner_comment', 'id', 'project_id']);
+        $workHistoryFreelancer = $user->first()->myApplications()->where('isCompleted_task_master', '!=', null)->with('projects:description,title,created_at,id')->get(['owner_rating', 'owner_comment', 'id', 'project_id']);
 
         $workHistoryEmployer =  $user->first()->projects()
             ->where('completed_on', '!=', null)

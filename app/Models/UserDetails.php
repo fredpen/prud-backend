@@ -5,17 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Wallet extends Model
+class UserDetails extends Model
 {
     use HasFactory;
 
     protected $guarded = [];
 
-    protected $table = "wallet";
-
     protected $hidden = ['created_at', 'updated_at', 'user_id', 'id'];
 
-    public function owner()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

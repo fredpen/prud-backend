@@ -21,7 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $guarded = [];
 
     protected $hidden = [
-        'password', 'security_answer', 'security_question', 'remember_token', 'access_code'
+        'password', 'security_answer', 'security_question', 'remember_token', 'access_code', 'deleted_at', 'updated_at', 'email_verified_at'
     ];
 
     protected $casts = [
@@ -51,6 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function wallet()
     {
         return $this->hasOne(Wallet::class);
+    }
+
+    public function details()
+    {
+        return $this->hasOne(UserDetails::class);
     }
 
     public function myApplications()

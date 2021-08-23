@@ -51,7 +51,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        return $user->isSuperAdmin() || $user->isBasicAdmin() ? true : false;
+        return $user->isBasicAdmin() ? true : false;
     }
 
     /**
@@ -63,15 +63,15 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        if ($model->id == 1) {
-            return false;
-        }
-
         if ($user->id == $model->id) {
             return true;
         }
 
-        return $user->isSuperAdmin() || $user->isBasicAdmin() ? true : false;
+        if ($model->id == 1) {
+            return false;
+        }
+
+        return $user->isBasicAdmin() ? true : false;
     }
 
     /**
@@ -86,8 +86,8 @@ class UserPolicy
         if ($model->id == 1) {
             return false;
         }
-        
-        return $user->isSuperAdmin() || $user->isBasicAdmin() ? true : false;
+
+        return $user->isBasicAdmin() ? true : false;
     }
 
     /**
@@ -99,7 +99,7 @@ class UserPolicy
      */
     public function restore(User $user, User $model)
     {
-        return $user->isSuperAdmin() || $user->isBasicAdmin() ? true : false;
+        return $user->isBasicAdmin() ? true : false;
     }
 
     /**
@@ -115,6 +115,6 @@ class UserPolicy
             return false;
         }
 
-        return $user->isSuperAdmin() || $user->isBasicAdmin() ? true : false;
+        return $user->isBasicAdmin() ? true : false;
     }
 }

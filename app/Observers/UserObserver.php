@@ -14,6 +14,8 @@ class UserObserver
         $time = time();
         $walletRef = "{$user->id}{$time}";
         $user->wallet()->create(["walletRef" => Str::limit($walletRef, 10, '')]);
+
+        $user->details()->create();
     }
 
     public function updated(User $user)

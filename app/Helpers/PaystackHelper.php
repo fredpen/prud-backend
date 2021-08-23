@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Http;
 
 class PaystackHelper
 {
+    public static function getBanks()
+    {
+        $url = "https://api.paystack.co/bank";
+        return  Http::get($url);
+    }
+
     public static function init($amount, $email)
     {
         $reference = time();
