@@ -27,7 +27,7 @@ class UserPolicy
         return $user->isBasicUser() ? false : true;
     }
 
-/*
+    /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
@@ -36,6 +36,10 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
+        if ($user->id == 1) {
+            return false;
+        }
+
         return $user->isBasicUser() ? false : true;
     }
 
@@ -59,6 +63,10 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
+        if ($model->id == 1) {
+            return false;
+        }
+
         if ($user->id == $model->id) {
             return true;
         }
@@ -75,6 +83,10 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
+        if ($model->id == 1) {
+            return false;
+        }
+        
         return $user->isSuperAdmin() || $user->isBasicAdmin() ? true : false;
     }
 
@@ -99,6 +111,10 @@ class UserPolicy
      */
     public function forceDelete(User $user, User $model)
     {
+        if ($model->id == 1) {
+            return false;
+        }
+
         return $user->isSuperAdmin() || $user->isBasicAdmin() ? true : false;
     }
 }

@@ -28,7 +28,16 @@ class NotifyHelper
         if ($messageId == "account_creation") {
 
             return  [
-                "subject" => "Account Update",
+                "subject" => "Account Creation",
+                "body" => "Welcome to {$appName}. Your temporary password is {$xtra}",
+                "sendMail" => true
+            ];
+        }
+
+        if ($messageId == "account_update") {
+
+            return  [
+                "subject" => "Account Creation",
                 "body" => "Welcome to {$appName}. Your temporary password is {$xtra}",
                 "sendMail" => true
             ];
