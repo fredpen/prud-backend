@@ -3,13 +3,14 @@
 namespace App\Providers;
 
 use App\Models\Mba;
+use App\Models\MbaPhoto;
 use App\Models\User;
 use App\Observers\MbaObserver;
+use App\Observers\MbaphotoObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -34,5 +35,6 @@ class EventServiceProvider extends ServiceProvider
     {
         User::observe(UserObserver::class);
         Mba::observe(MbaObserver::class);
+        MbaPhoto::observe(MbaphotoObserver::class);
     }
 }

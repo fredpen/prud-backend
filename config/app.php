@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://tasks.test'),
+    'url' => env('APP_URL', 'http://prud.test'),
 
     'asset_url' => env('ASSET_URL', null),
 

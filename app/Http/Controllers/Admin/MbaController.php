@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
 
 class MbaController extends Controller
 {
-    private $with = ['plans:name'];
+    private $with = ['photos'];
 
     public function getAllMbas()
     {
@@ -23,7 +23,7 @@ class MbaController extends Controller
             return ResponseHelper::notFound("No Mba available");
         }
 
-        $mbas = $mbas->get(['id', 'name', 'status']);
+        $mbas = $mbas->with($this->with)->get(['id', 'name', 'status']);
         Cache::put('listOfMbas', $mbas);
         return ResponseHelper::sendSuccess($mbas);
     }
@@ -39,14 +39,16 @@ class MbaController extends Controller
             return  ResponseHelper::notFound("No Mba available");
         }
 
-        $mbas = $mbas->get(['id', 'name', 'status']);
+        $mbas = $mbas->with($this->with)->get(['id', 'name', 'status']);
         Cache::put('listOfActiveMbas', $mbas);
         return ResponseHelper::sendSuccess($mbas);
     }
 
     public function show(Request $request)
     {
-        $mba = Mba::where('id', $request->id)->first(['id', 'name', 'status']);
+        $mba = Mba::where('id', $request->id)
+            ->with($this->with)
+            ->first(['id', 'name', 'status']);
         if (!$mba) {
             return ResponseHelper::notFound("Invalid Mba Id");
         }
@@ -64,11 +66,6 @@ class MbaController extends Controller
             return ResponseHelper::serverError("creation failed");
         }
 
-        if ($request->has('photos')) {
-            $url =  $request->user()
-                ->storeMyFile($request->file('photos'), 'mbaAvatars', $request->user()->id);
-            $validatedData['avatar'] = $url;
-        }
         return ResponseHelper::sendSuccess($mba);
     }
 

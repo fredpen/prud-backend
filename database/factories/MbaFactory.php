@@ -12,7 +12,7 @@ class MbaFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->state(),
+            'name' => $this->faker->city(),
             'status' => $this->faker->randomElement([true, false])
         ];
     }

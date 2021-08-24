@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\MbaController;
 use App\Http\Controllers\Admin\ProjectApplicationController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\MbaPhotoController;
 use Illuminate\Support\Facades\Route;
 
 //acces with api/admin
@@ -17,6 +18,8 @@ Route::prefix('mba')->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('create',  [MbaController::class, 'create']);
         Route::post('update',  [MbaController::class, 'update']);
+        Route::post('attach-media',  [MbaPhotoController::class, 'attachMedia']);
+        Route::post('remove-media',  [MbaPhotoController::class, 'detachMedia']);
         Route::delete('/{id}/delete',  [MbaController::class, 'delete']);
     });
 });

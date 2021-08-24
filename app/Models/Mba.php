@@ -17,5 +17,10 @@ class Mba extends Model
         'deleted_at', 'updated_at'
     ];
 
+    public function photos()
+    {
+        return $this->hasMany(MbaPhoto::class);
+    }
+
 
 }
