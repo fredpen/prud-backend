@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
 
 class MbaController extends Controller
 {
-    private $with = ['photos'];
+    private $with = ['photos', 'benefits:id,body,mba_id'];
 
     public function getAllMbas()
     {
@@ -46,12 +46,13 @@ class MbaController extends Controller
 
     public function show(Request $request)
     {
-        $mba = Mba::where('id', $request->id)
-            ->with($this->with)
-            ->first(['id', 'name', 'status']);
-        if (!$mba) {
+        $mba = Mba::where('id', $request->id);
+        if (!$mba->count()) {
             return ResponseHelper::notFound("Invalid Mba Id");
         }
+
+        $mba = $mba->with($this->with)
+            ->first(['id', 'name', 'status']);
 
         return ResponseHelper::sendSuccess($mba);
     }

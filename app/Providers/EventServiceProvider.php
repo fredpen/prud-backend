@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Mba;
+use App\Models\MbaBenefits;
 use App\Models\MbaPhoto;
 use App\Models\User;
+use App\Observers\MbaBenefitObserver;
 use App\Observers\MbaObserver;
 use App\Observers\MbaphotoObserver;
 use App\Observers\UserObserver;
@@ -36,5 +38,6 @@ class EventServiceProvider extends ServiceProvider
         User::observe(UserObserver::class);
         Mba::observe(MbaObserver::class);
         MbaPhoto::observe(MbaphotoObserver::class);
+        MbaBenefits::observe(MbaBenefitObserver::class);
     }
 }

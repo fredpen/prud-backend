@@ -22,5 +22,8 @@ class Mba extends Model
         return $this->hasMany(MbaPhoto::class);
     }
 
-
+    public function benefits()
+    {
+        return $this->hasMany(MbaBenefits::class);
+    }
 }
