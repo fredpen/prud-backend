@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Helpers\FileHelper;
 use App\Models\Mba;
 use Illuminate\Support\Facades\Cache;
 
@@ -20,6 +21,10 @@ class MbaObserver
 
     public function deleted(Mba $mba)
     {
+        $mba->benefits()->delete();
+        FileHelper::removeAfile($mba->photos()->pluck('url'));
+        $mba->photos()->delete();
+        // $mba->plans()->delete();
         return $this->burstMbaCache();
     }
 

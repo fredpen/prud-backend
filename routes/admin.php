@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\MbaBenefitsController;
 use App\Http\Controllers\MbaPhotoController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
 //acces with api/admin
@@ -29,6 +30,14 @@ Route::prefix('mba')->group(function () {
             Route::post('update',  [MbaBenefitsController::class, 'update']);
             Route::post('delete',  [MbaBenefitsController::class, 'delete']);
         });
+    });
+});
+
+// walltes
+Route::prefix('wallet')->group(function () {
+    Route::middleware(['auth:sanctum'])->group(function () {
+        Route::post('debit',  [WalletController::class, 'debit']);
+        Route::post('credit',  [WalletController::class, 'credit']);
     });
 });
 

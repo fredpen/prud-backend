@@ -14,7 +14,7 @@ class Wallet extends Model
     protected $table = "wallet";
 
     protected $hidden = ['created_at', 'updated_at', 'user_id', 'id'];
-
+    
     public function owner()
     {
         return $this->belongsTo(User::class);

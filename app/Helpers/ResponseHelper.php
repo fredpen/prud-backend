@@ -45,6 +45,14 @@ class ResponseHelper
         return response()->json($response, 500);
     }
 
+    public static function invalidData($message = "We couldn't perform this operation")
+    {
+        $response = [
+            'message' => $message
+        ];
+        return response()->json($response, 422);
+    }
+
 
 
 }
