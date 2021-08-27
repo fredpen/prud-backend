@@ -59,7 +59,7 @@ class MbaController extends Controller
 
     public function create(Request $request)
     {
-        $this->authorize('create', $request->user());
+        $this->authorize('create', Mba::class);
         $this->validateCreateRequest($request);
 
         $mba = Mba::create($request->only('name'));
@@ -72,7 +72,7 @@ class MbaController extends Controller
 
     public function update(Request $request)
     {
-        $this->authorize('create', $request->user());
+        $this->authorize('create', Mba::class);
         $mba = Mba::where('id', $request->id)->first();
         if (!$mba) {
             return ResponseHelper::notFound("Invalid Mba Id");
@@ -90,7 +90,7 @@ class MbaController extends Controller
 
     public function delete(Request $request)
     {
-        $this->authorize('create', $request->user());
+        $this->authorize('create', Mba::class);
         $mba = Mba::where('id', $request->id)->first();
 
         if (!$mba) {

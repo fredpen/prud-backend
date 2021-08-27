@@ -13,9 +13,7 @@ class Mba extends Model
 
     protected $table = "mbas";
 
-    protected $hidden = [
-        'deleted_at', 'updated_at'
-    ];
+    protected $hidden = ['deleted_at', 'updated_at'];
 
     public function photos()
     {
@@ -25,5 +23,10 @@ class Mba extends Model
     public function benefits()
     {
         return $this->hasMany(MbaBenefits::class);
+    }
+
+    public function plans()
+    {
+        return $this->hasMany(MbaPlan::class);
     }
 }

@@ -33,16 +33,16 @@ Route::prefix('mba')->group(function () {
     });
 });
 
-// walltes
-Route::prefix('wallet')->group(function () {
-    Route::middleware(['auth:sanctum'])->group(function () {
-        Route::post('debit',  [WalletController::class, 'debit']);
-        Route::post('credit',  [WalletController::class, 'credit']);
-    });
-});
+
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    // walltes
+    Route::prefix('wallet')->group(function () {
+        Route::post('debit',  [WalletController::class, 'debit']);
+        Route::post('credit',  [WalletController::class, 'credit']);
+    });
 
     // users
     Route::prefix('users')->group(function () {

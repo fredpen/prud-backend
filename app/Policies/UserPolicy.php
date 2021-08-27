@@ -9,17 +9,14 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user)
+    public function viewAny(User $user)
     {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-
-        return false;
+        return $user->isBasicUser() ? false : true;
     }
 
     public function update(User $user)
     {
-        return false;
+        return $user->isBasicAdmin() ||
+            $user->isSuperAdmin() ? true : false;
     }
 }

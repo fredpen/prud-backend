@@ -5,11 +5,11 @@ namespace App\Policies;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class MbaPolicy
+class MbaPlanPolicy
 {
     use HandlesAuthorization;
 
-    public function create(User $user)
+    public function update(User $user)
     {
         return $user->isBasicAdmin() ||
             $user->isSuperAdmin() ? true : false;

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\UserTraits;
+use Exception;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -71,5 +72,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function payments() //money you paid
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public static function getUser($userId)
+    {
+        $user = self::where('id', $userId);
+        return $user->count() ? $user : throw new Exception("Invalid user Id");
     }
 }

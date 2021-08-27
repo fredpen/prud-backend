@@ -13,9 +13,9 @@ class MbaFactory extends Factory
     {
         return [
             'name' => $this->faker->city(),
-            'price_per_unit' => $this->faker->randomFloat(2, 100, 10000),
+            'price_per_unit' => $this->faker->randomFloat(2, 500000, 1000000),
             'available_unit' => $this->faker->numberBetween(2, 10),
-            'term' => $this->faker->randomElement([12, 24, 36]),
+            // 'term' => $this->faker->randomElement([12, 24, 36]),
             'status' => $this->faker->randomElement([true, false])
         ];
     }

@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Models\Mba;
 use App\Models\MbaBenefits;
 use App\Models\MbaPhoto;
+use App\Models\MbaPlan;
 use App\Models\User;
 use App\Observers\MbaBenefitObserver;
 use App\Observers\MbaObserver;
 use App\Observers\MbaphotoObserver;
+use App\Observers\MbaPlanObserver;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -35,9 +37,10 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        User::observe(UserObserver::class);
         Mba::observe(MbaObserver::class);
+        User::observe(UserObserver::class);
         MbaPhoto::observe(MbaphotoObserver::class);
         MbaBenefits::observe(MbaBenefitObserver::class);
+        MbaPlan::observe(MbaPlanObserver::class);
     }
 }

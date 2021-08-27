@@ -9,15 +9,9 @@ class MbaBenefitPolicy
 {
     use HandlesAuthorization;
 
-    public function before(User $user)
-    {
-        if ($user->isSuperAdmin()) {
-            return true;
-        }
-    }
-
     public function create(User $user)
     {
-        return $user->isBasicAdmin() ? true : false;
+        return $user->isBasicAdmin() ||
+            $user->isSuperAdmin() ? true : false;
     }
 }

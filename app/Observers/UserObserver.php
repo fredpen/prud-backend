@@ -17,24 +17,4 @@ class UserObserver
 
         $user->details()->create();
     }
-
-    public function updated(User $user)
-    {
-        //
-    }
-
-    public function deleted(User $user)
-    {
-        //
-    }
-
-    public function restored(User $user)
-    {
-        //
-    }
-
-    public function forceDeleted(User $user)
-    {
-        //
-    }
 }

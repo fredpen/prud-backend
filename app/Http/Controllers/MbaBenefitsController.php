@@ -12,7 +12,7 @@ class MbaBenefitsController extends Controller
 
     public function create(Request $request)
     {
-        $this->authorize('create', $request->user());
+        $this->authorize('create', MbaBenefits::class);
         $this->validateCreateRequest($request);
 
         $mba = Mba::where('id', $request->mba_id)->first();
@@ -27,7 +27,7 @@ class MbaBenefitsController extends Controller
 
     public function update(Request $request)
     {
-        $this->authorize('create', $request->user());
+        $this->authorize('create', MbaBenefits::class);
         $this->validateUpdateRequest($request);
 
         $benefit = MbaBenefits::where('id', $request->id)->first();
@@ -42,7 +42,7 @@ class MbaBenefitsController extends Controller
 
     public function delete(Request $request)
     {
-        $this->authorize('create', $request->user());
+        $this->authorize('create', MbaBenefits::class);
         $request->validate(["id" => ['required', "exists:mba_benefits,id"]]);
 
         $benefit = MbaBenefits::where('id', $request->id)->first();

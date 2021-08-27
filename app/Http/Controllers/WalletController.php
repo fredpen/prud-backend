@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Helpers\WalletHelper;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 
 class WalletController extends Controller
@@ -12,11 +13,11 @@ class WalletController extends Controller
     public function debit(Request $request)
     {
         $this->validateRequest($request);
-        $this->authorize('update', $request->user());
+        $this->authorize('charge', Wallet::class);
 
         try {
-            $user = User::where('id', $request->user_id)->first();
-            WalletHelper::debitUser($user, floatval($request->amount));
+            $user = User::getUser($request->user_id);
+            WalletHelper::debitUser($user->first(), floatval($request->amount));
         } catch (\Exception $e) {
             return ResponseHelper::invalidData($e->getMessage());
         }
@@ -26,12 +27,12 @@ class WalletController extends Controller
 
     public function credit(Request $request)
     {
-        $this->authorize('update', $request->user());
+        $this->authorize('charge', Wallet::class);
         $this->validateRequest($request);
 
         try {
-            $user = User::where('id', $request->user_id)->first();
-            WalletHelper::creditUser($user, floatval($request->amount));
+            $user = User::getUser($request->user_id);
+            WalletHelper::creditUser($user->first(), floatval($request->amount));
         } catch (\Exception $e) {
             return ResponseHelper::invalidData($e->getMessage());
         }
@@ -43,7 +44,6 @@ class WalletController extends Controller
     {
         return $request->validate([
             "amount" => ["required", "numeric"],
-            "user_id" => ["required", "exists:users,id"],
         ]);
     }
 }

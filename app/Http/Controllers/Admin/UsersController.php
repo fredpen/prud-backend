@@ -23,7 +23,7 @@ class UsersController extends Controller
 
     public function all()
     {
-        $this->authorize('viewAny', User::class);
+        $this ->authorize('viewAny', User::class);
 
         $users = User::query();
 
@@ -35,7 +35,7 @@ class UsersController extends Controller
 
     public function create(Request $request)
     {
-        $this->authorize('create', User::class);
+        $this->authorize('update', User::class);
 
         $request->validate([
             'first_name' => ['required', 'string', 'max:255', 'bail'],
@@ -90,7 +90,7 @@ class UsersController extends Controller
         if (!$user) {
             return ResponseHelper::serverError("Invalid User Id");
         }
-        $this->authorize('delete', $user);
+        $this->authorize('update', $user);
 
         $delete = $user->delete();
 

@@ -19,7 +19,7 @@ class CreateMbasTable extends Migration
                 $table->string('name')->index();
                 $table->float('price_per_unit', 10, 2)->index()->default(0);
                 $table->integer('available_unit')->index()->default(1);
-                $table->integer('term')->index()->default(0);
+                // $table->integer('term')->index()->default(0);
                 $table->boolean('status')->default(true);
                 $table->timestamps();
                 $table->softDeletes();

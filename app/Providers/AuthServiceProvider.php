@@ -5,10 +5,12 @@ namespace App\Providers;
 use App\Models\Mba;
 use App\Models\MbaBenefits;
 use App\Models\MbaPhoto;
+use App\Models\MbaPlan;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Policies\MbaBenefitPolicy;
 use App\Policies\MbaPhotoPolicy;
+use App\Policies\MbaPlanPolicy;
 use App\Policies\MbaPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\WalletPolicy;
@@ -21,9 +23,11 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Mba::class => MbaPolicy::class,
         User::class => UserPolicy::class,
+        Wallet::class => WalletPolicy::class,
         MbaPhoto::class => MbaPhotoPolicy::class,
         MbaBenefits::class => MbaBenefitPolicy::class,
-        Wallet::class => WalletPolicy::class,
+        MbaPlan::class => MbaPlanPolicy::class,
+
     ];
 
     /**
@@ -35,6 +39,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::before(function ($user) {
+            if ($user->isSuperAdmin()) {
+                return true;
+            }
+        });
     }
 }
