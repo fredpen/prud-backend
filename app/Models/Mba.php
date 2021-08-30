@@ -25,8 +25,18 @@ class Mba extends Model
         return $this->hasMany(MbaBenefits::class);
     }
 
+    public function activeBenefits()
+    {
+        return $this->hasMany(MbaBenefits::class);
+    }
+
     public function plans()
     {
         return $this->hasMany(MbaPlan::class);
+    }
+
+    public function activePlans()
+    {
+        return $this->hasMany(MbaPlan::class)->where('isActive', true);
     }
 }

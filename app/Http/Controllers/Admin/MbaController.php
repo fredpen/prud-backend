@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Cache;
 
 class MbaController extends Controller
 {
-    private $with = ['photos', 'benefits:id,body,mba_id'];
+    private $with = ['photos', 'benefits:id,body,mba_id', 'plans'];
+    private $onlyActives = ['photos', 'activeBenefits:id,body,mba_id', 'activePlans'];
 
     public function getAllMbas()
     {
@@ -39,7 +40,7 @@ class MbaController extends Controller
             return  ResponseHelper::notFound("No Mba available");
         }
 
-        $mbas = $mbas->with($this->with)->get(['id', 'name', 'status']);
+        $mbas = $mbas->with($this->onlyActives)->get(['id', 'name', 'status']);
         Cache::put('listOfActiveMbas', $mbas);
         return ResponseHelper::sendSuccess($mbas);
     }

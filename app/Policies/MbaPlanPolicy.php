@@ -9,7 +9,7 @@ class MbaPlanPolicy
 {
     use HandlesAuthorization;
 
-    public function update(User $user)
+    public function manage(User $user)
     {
         return $user->isBasicAdmin() ||
             $user->isSuperAdmin() ? true : false;

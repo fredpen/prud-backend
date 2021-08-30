@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\MbaBenefitsController;
 use App\Http\Controllers\MbaPhotoController;
+use App\Http\Controllers\MbaPlanController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,12 @@ Route::prefix('mba')->group(function () {
             Route::post('create',  [MbaBenefitsController::class, 'create']);
             Route::post('update',  [MbaBenefitsController::class, 'update']);
             Route::post('delete',  [MbaBenefitsController::class, 'delete']);
+        });
+
+        Route::prefix('plans')->group(function () {
+            Route::post('create',  [MbaPlanController::class, 'create']);
+            Route::post('update',  [MbaPlanController::class, 'update']);
+            Route::post('delete',  [MbaPlanController::class, 'delete']);
         });
     });
 });
