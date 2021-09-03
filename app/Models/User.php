@@ -79,4 +79,36 @@ class User extends Authenticatable implements MustVerifyEmail
         $user = self::where('id', $userId);
         return $user->count() ? $user : throw new Exception("Invalid user Id");
     }
+
+    public function trustees()
+    {
+        return $this->where("role_id", 3);
+    }
+
+    public function admins()
+    {
+        return $this->where("role_id", 2);
+    }
+
+    public function basicUsers()
+    {
+        return $this->where("role_id", 4);
+    }
+
+    public function getUsersBasedOnType(string $type)
+    {
+        if ($type == 'trustees') {
+            return $this->trustees();
+        }
+
+        if ($type == 'admins') {
+            return $this->admins();
+        }
+
+        if ($type == 'basicUsers') {
+            return $this->basicUsers();
+        }
+
+        return $this;
+    }
 }

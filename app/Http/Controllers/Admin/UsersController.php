@@ -16,22 +16,22 @@ class UsersController extends Controller
         if ($request->id == 1) abort(403, "Insufficient permission");
         $this->authorize('viewAny', User::class);
 
-       $user = User::where('id', $request->id);
+        $user = User::where('id', $request->id);
         return $user ?
-            ResponseHelper::sendSuccess($user->with(['details', 'wallet'])->get()) : ResponseHelper::notFound("Invalid user Id");
+            ResponseHelper::sendSuccess($user->with(['details', 'wallet'])->first()) : ResponseHelper::notFound("Invalid user Id");
     }
 
-    public function all()
+    public function all(Request $request)
     {
-        $this ->authorize('viewAny', User::class);
-
-        $users = User::query();
+        $this->authorize('viewAny', User::class);
+        $users = $request->type ?  (new User())->getUsersBasedOnType($request->type) :  User::query();
 
         return $users->count() ?
             ResponseHelper::sendSuccess($users
                 ->orderBy('updated_at', 'desc')
                 ->paginate(Constant::PERPAGE)) : ResponseHelper::notFound();
     }
+
 
     public function create(Request $request)
     {
