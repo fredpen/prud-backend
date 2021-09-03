@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\UserTraits;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -10,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -27,7 +29,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'datetime',
     ];
+
+    public function getCreatedAtAttribute($value)
+    {
+        return  $date = Str::limit($value, 10, '');
+        return Carbon::createFromFormat('Y-m-d',  $date)->diffForHumans();
+    }
 
     public function isSuperAdmin()
     {
