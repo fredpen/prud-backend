@@ -14,13 +14,13 @@ class WalletController extends Controller
     {
         $this->validateRequest($request);
         $this->authorize('charge', Wallet::class);
-
         try {
             $user = User::getUser($request->user_id);
-            WalletHelper::debitUser($user->first(), floatval($request->amount));
+             WalletHelper::debitUser($user->first(), floatval($request->amount));
         } catch (\Exception $e) {
             return ResponseHelper::invalidData($e->getMessage());
         }
+
 
         return ResponseHelper::sendSuccess([]);
     }

@@ -29,8 +29,8 @@ class CreatePaymentsTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('project_id')->references('id')->on('projects');
+            // $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('project_id')->references('id')->on('projects');
         });
     }
 

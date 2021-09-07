@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Investments;
 use App\Models\Mba;
 use App\Models\MbaBenefits;
 use App\Models\MbaPhoto;
 use App\Models\MbaPlan;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Policies\InvestmentPolicy;
 use App\Policies\MbaBenefitPolicy;
 use App\Policies\MbaPhotoPolicy;
 use App\Policies\MbaPlanPolicy;
@@ -27,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         MbaPhoto::class => MbaPhotoPolicy::class,
         MbaBenefits::class => MbaBenefitPolicy::class,
         MbaPlan::class => MbaPlanPolicy::class,
+        Investments::class => InvestmentPolicy::class,
 
     ];
 

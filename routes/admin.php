@@ -1,8 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\AuditController;
+use App\Http\Controllers\Admin\InvestmentsController;
 use App\Http\Controllers\Admin\MbaController;
-use App\Http\Controllers\Admin\ProjectApplicationController;
-use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\MbaBenefitsController;
 use App\Http\Controllers\MbaPhotoController;
@@ -41,10 +41,28 @@ Route::prefix('mba')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    // investments
+    Route::group(['prefix' => 'investments'], function () {
+
+        Route::get('{id}/users', [InvestmentsController::class, 'usersInvestments']);
+        Route::get('all', [InvestmentsController::class, 'allInvestments']);
+        Route::post('create', [InvestmentsController::class, 'create']);
+        Route::get('{id}/show', [InvestmentsController::class, 'show']);
+        Route::get('{id}/show', [InvestmentsController::class, 'show']);
+        Route::get('{id}/update', [InvestmentsController::class, 'update']);
+    });
+
+
     // walltes
     Route::prefix('wallet')->group(function () {
         Route::post('debit',  [WalletController::class, 'debit']);
         Route::post('credit',  [WalletController::class, 'credit']);
+    });
+
+    Route::prefix('audits')->group(function () {
+        Route::get('user/{id}',  [AuditController::class, 'userAudit']);
+        Route::get('wallet/{id}',  [AuditController::class, 'walletAudit']);
     });
 
     // users

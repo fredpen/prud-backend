@@ -6,20 +6,22 @@ use App\Traits\UserTraits;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Auditable as AuditingAuditable;
+use OwenIt\Auditing\Contracts\Auditable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements Auditable
 {
     use Notifiable,
         UserTraits,
         HasApiTokens,
         SoftDeletes,
-        HasFactory;
+        HasFactory,
+        AuditingAuditable;
 
     protected $guarded = [];
 
@@ -104,20 +106,19 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->where("role_id", 4);
     }
 
-    public function getUsersBasedOnType(string $type)
+    public function investments()
     {
-        if ($type == 'trustees') {
-            return $this->trustees();
-        }
+        return $this->hasMany(Investments::class);
+    }
 
-        if ($type == 'admins') {
-            return $this->admins();
-        }
+    public function getUsersBasedOnType(string $key): User
+    {
+        $userTypes = [
+            "trustees" => $this->trustees(),
+            "admins" => $this->admins(),
+            "basicUsers" => $this->basicUsers(),
+        ];
 
-        if ($type == 'basicUsers') {
-            return $this->basicUsers();
-        }
-
-        return $this;
+        return $userTypes[$key] ?  $userTypes[$key] : $this;
     }
 }

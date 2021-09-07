@@ -1,17 +1,25 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InvestmentsController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\UserDetailsController;
 
-
-
 // others
 Route::group(['prefix' => 'misc'], function () {
     Route::get('banks',  [UserDetailsController::class, 'getBanks']);
+});
+
+// investments
+Route::group(['prefix' => 'investments', 'middleware' => 'auth:sanctum'], function () {
+
+    Route::get('mine', [InvestmentsController::class, 'myInvestments']);
+    Route::post('create', [InvestmentsController::class, 'create']);
+    Route::get('{id}/show', [InvestmentsController::class, 'show']);
+
 });
 
 // auth
@@ -60,13 +68,5 @@ Route::group(['prefix' => 'project/payment'], function () {
             Route::get('all_transactions', [PaymentController::class, 'index']);
             Route::get('successful_transactions', [PaymentController::class, 'succesfulTransactions']);
         });
-
-        Route::middleware(['projectAdminRight'])->group(function () {
-            Route::get('initiate', [PaymentController::class, 'initiate']);
-            Route::get('my-transactions', [PaymentController::class, 'userPayments']);
-            Route::get('my-successful-transactions', [PaymentController::class, 'userSuccesfulPayments']);
-        });
     });
 });
-
-
