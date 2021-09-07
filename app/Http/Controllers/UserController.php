@@ -4,11 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\NotifyHelper;
 use App\Helpers\ResponseHelper;
-use App\Helpers\Transformer;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -32,19 +28,12 @@ class UserController extends Controller
     public function userDetails(Request $request)
     {
         return ResponseHelper::sendSuccess($request
-            ->user()->with(['details', 'wallet']));
+            ->user()->with(['details', 'wallet'])->first());
     }
 
     public function updateUser(Request $request)
     {
-        $message = "use api/user/update-security-data' for updating users's name, phone_number, email and means of identification";
-
-        $unallowedField = $this->validateUpdateRequest($request->all());
-        if ($unallowedField !== true) {
-            return ResponseHelper::badRequest("You can not update {$unallowedField}, {$message}");
-        }
-
-        $validatedData = $this->sanitizeRequest($request);
+         $validatedData = $this->sanitizeRequest($request, $request->user());
 
         if ($request->has('avatar')) {
             $url =  $request->user()
@@ -63,7 +52,7 @@ class UserController extends Controller
 
     public function updateSecurityData(Request $request)
     {
-        $validatedData = $this->sanitizeRequest($request, true);
+        $validatedData = $this->sanitizeRequest($request, $request->user());
 
         $user = $request->user()->makeVisible(['security_answer']);
         if ($user->security_answer != $request->security_answer) {
@@ -80,50 +69,17 @@ class UserController extends Controller
         return ResponseHelper::sendSuccess([], "Update successful");
     }
 
-    private function validateUpdateRequest($request)
+    private function sanitizeRequest($request, $user)
     {
-        $incomingFields = array_keys($request);
-        $allowedFields = Config::get('constants.userUpdate');
-
-        foreach ($incomingFields as $requestKey) {
-            if (!in_array($requestKey, $allowedFields)) {
-                return $requestKey;
-            }
-        }
-
-        return true;
-    }
-
-    private function sanitizeRequest($request, $securityData = false)
-    {
-        if (!$securityData) {
-            return $request->validate([
-                'title' => ['sometimes', 'required', 'string', 'min:3'],
-                'country_id' => ['sometimes', 'required', 'exists:countries,id'],
-                'region_id' => ['sometimes', 'required', 'exists:regions,id'],
-                'city_id' => ['sometimes', 'required', 'exists:cities,id'],
-                'address' => ['sometimes', 'required', 'string', 'min:3'],
-                "linkedln" => ['sometimes', 'required', 'string', 'min:3'],
-                "bio" => ['sometimes', 'required', 'string', 'min:3'],
-                "avatar" => ['sometimes', 'required', 'image', 'max:2000000'],
-            ]);
-        }
-
         return $request->validate([
-            "security_answer" => ['required', 'string', 'min:3'],
-
-            'name' => ['sometimes', 'required', 'string', 'min:3'],
-            'title' => ['sometimes', 'required', 'string', 'min:3'],
-            'phone_number' => ['sometimes', 'required', 'numeric'],
-            'country_id' => ['sometimes', 'required', 'exists:countries,id'],
-            'region_id' => ['sometimes', 'required', 'exists:regions,id'],
-            'city_id' => ['sometimes', 'required', 'exists:cities,id'],
-            'address' => ['sometimes', 'required', 'string', 'min:3'],
-            "linkedln" => ['sometimes', 'required', 'string', 'min:3'],
-            "bio" => ['sometimes', 'required', 'string', 'min:3'],
-            "email" => ['sometimes', 'required', 'email', 'unique:'],
-            "avatar" => ['sometimes', 'required', 'image', 'max:2000000'],
-            "identification" => ['sometimes', 'required', 'image', 'max:2000000']
+            'surname' => ['sometimes', 'string', 'max:255'],
+            'first_name' => ['sometimes', 'string', 'max:255'],
+            'title' => ['sometimes', 'string', 'max:255'],
+            'address' => ['sometimes', 'string', 'max:255'],
+            'email' => $user->email == $request->email ? []
+                : ['sometimes', 'string', 'email:rfc,dns', 'max:255', 'unique:users'],
+            'phone_number' => $user->phone_number == $request->phone_number ? []
+                : ['sometimes', 'string', 'max:255', 'unique:users'],
         ]);
     }
 }

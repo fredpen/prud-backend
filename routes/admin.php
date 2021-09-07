@@ -40,11 +40,7 @@ Route::prefix('mba')->group(function () {
     });
 });
 
-
-
-
 Route::middleware(['auth:sanctum'])->group(function () {
-
     // walltes
     Route::prefix('wallet')->group(function () {
         Route::post('debit',  [WalletController::class, 'debit']);
@@ -58,27 +54,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('update',  [UsersController::class, 'update']);
         Route::delete('/{id}/delete',  [UsersController::class, 'delete']);
         Route::get('/{id}/show',  [UsersController::class, 'show']);
-    });
-
-    // Projects
-    Route::prefix('project')->group(function () {
-        Route::get('drafts',  [ProjectController::class, 'drafts']);
-        Route::get('published',  [ProjectController::class, 'published']);
-        Route::get('started',  [ProjectController::class, 'started']);
-        Route::get('completed',  [ProjectController::class, 'completed']);
-        Route::get('cancelled',  [ProjectController::class, 'cancelled']);
-        Route::get('deleted',  [ProjectController::class, 'deleted']);
-        Route::get('user/{user_id}',  [ProjectController::class, 'usersProject']);
-    });
-
-    // users
-    Route::prefix('users')->group(function () {
-        Route::get('all',  [UsersController::class, 'all']);
-    });
-
-    // Projects applications
-    Route::prefix('project-application')->group(function () {
-        Route::post('assign',  [ProjectApplicationController::class, 'assign']);
-        Route::post('withdraw_assignment',  [ProjectApplicationController::class, 'withdraw']);
     });
 });

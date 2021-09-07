@@ -13,9 +13,9 @@ class NotifyHelper
     {
         $messageData = Self::setMessage($messageId, $xtra);
 
-        $from = array_key_exists("from", $messageData) ? $messageData['from'] : "3HJOBS Support";
+        $from = array_key_exists("from", $messageData) ? $messageData['from'] : "PEIN";
         $link = array_key_exists("link", $messageData) ? $messageData['link'] : false;
-        $subject = array_key_exists("subject", $messageData) ? $messageData['subject'] : "Message from 3HJOBS Support";
+        $subject = array_key_exists("subject", $messageData) ? $messageData['subject'] : "Message from PEIN";
         $body = array_key_exists("body", $messageData) ? $messageData['body'] : "Thanks for using our services";
         $sendMail = !!$messageData['sendMail'];
 
@@ -29,16 +29,7 @@ class NotifyHelper
 
             return  [
                 "subject" => "Account Creation",
-                "body" => "Welcome to {$appName}. Your temporary password is {$xtra}",
-                "sendMail" => true
-            ];
-        }
-
-        if ($messageId == "account_update") {
-
-            return  [
-                "subject" => "Account Creation",
-                "body" => "Welcome to {$appName}. Your temporary password is {$xtra}",
+                "body" => $xtra ? "Welcome to {$appName}. Your temporary password is {$xtra}" : "Welcome to {$appName}",
                 "sendMail" => true
             ];
         }

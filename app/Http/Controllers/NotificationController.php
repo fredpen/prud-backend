@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
-use App\Notifications\ProjectAppllication;
 use Illuminate\Http\Request;
 
 class NotificationController extends Controller

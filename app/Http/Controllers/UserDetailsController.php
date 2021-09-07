@@ -55,4 +55,3 @@ class UserDetailsController extends Controller
         ]);
     }
 }
-
