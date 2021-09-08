@@ -13,10 +13,11 @@ class WalletController extends Controller
     public function debit(Request $request)
     {
         $this->validateRequest($request);
-        $this->authorize('charge', Wallet::class);
+
         try {
+            $this->authorize('charge', Wallet::class);
             $user = User::getUser($request->user_id);
-             WalletHelper::debitUser($user->first(), floatval($request->amount));
+            WalletHelper::debitUser($user->first(), floatval($request->amount));
         } catch (\Exception $e) {
             return ResponseHelper::invalidData($e->getMessage());
         }
@@ -27,10 +28,10 @@ class WalletController extends Controller
 
     public function credit(Request $request)
     {
-        $this->authorize('charge', Wallet::class);
         $this->validateRequest($request);
 
         try {
+            $this->authorize('charge', Wallet::class);
             $user = User::getUser($request->user_id);
             WalletHelper::creditUser($user->first(), floatval($request->amount));
         } catch (\Exception $e) {

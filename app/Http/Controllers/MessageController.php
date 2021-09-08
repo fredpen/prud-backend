@@ -13,8 +13,9 @@ class MessageController extends Controller
 
     public function send(Request $request)
     {
+        $this->validateSendRequest($request);
+        
         try {
-            $this->validateSendRequest($request);
             $this->authorize("manage", Message::class);
             $user = User::where('id', $request->user_id)->first();
             NotifyHelper::chat($user, $request->subject, $request->message);
