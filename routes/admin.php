@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\MbaBenefitsController;
 use App\Http\Controllers\MbaPhotoController;
 use App\Http\Controllers\MbaPlanController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,14 @@ Route::prefix('mba')->group(function () {
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {
+
+    // messages
+    Route::group(['prefix' => 'messages'], function () {
+        Route::post('send', [MessageController::class, 'send']);
+        Route::get('{id}/all', [MessageController::class, 'usersMessages']);
+
+    });
+
 
     // investments
     Route::group(['prefix' => 'investments'], function () {

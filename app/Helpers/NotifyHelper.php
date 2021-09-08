@@ -3,11 +3,17 @@
 namespace App\Helpers;
 
 use App\Models\User;
+use App\Notifications\ChatNotification;
 use App\Notifications\GeneralNotification;
 use Illuminate\Support\Facades\Config;
 
 class NotifyHelper
 {
+    public static function chat(User $user, $subject, $body)
+    {
+        $from = "PEIN-ADMIN";
+        $user->notify(new ChatNotification($subject, $body, false, $from, true));
+    }
 
     public static function talkTo(User $user, $messageId, $xtra = false)
     {
@@ -25,8 +31,8 @@ class NotifyHelper
     private static function setMessage($messageId, $xtra)
     {
         $appName = Config::get('app.name');
-        if ($messageId == "account_creation") {
 
+        if ($messageId == "account_creation") {
             return  [
                 "subject" => "Account Creation",
                 "body" => $xtra ? "Welcome to {$appName}. Your temporary password is {$xtra}" : "Welcome to {$appName}",

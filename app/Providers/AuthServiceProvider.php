@@ -7,6 +7,7 @@ use App\Models\Mba;
 use App\Models\MbaBenefits;
 use App\Models\MbaPhoto;
 use App\Models\MbaPlan;
+use App\Models\Message;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Policies\InvestmentPolicy;
@@ -14,6 +15,7 @@ use App\Policies\MbaBenefitPolicy;
 use App\Policies\MbaPhotoPolicy;
 use App\Policies\MbaPlanPolicy;
 use App\Policies\MbaPolicy;
+use App\Policies\MessagePolicy;
 use App\Policies\UserPolicy;
 use App\Policies\WalletPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -30,6 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         MbaBenefits::class => MbaBenefitPolicy::class,
         MbaPlan::class => MbaPlanPolicy::class,
         Investments::class => InvestmentPolicy::class,
+        Message::class => MessagePolicy::class,
 
     ];
 

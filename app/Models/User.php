@@ -70,6 +70,11 @@ class User extends Authenticatable implements Auditable
         return $this->hasOne(UserDetails::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function myApplications()
     {
         return $this->hasMany(ProjectApplications::class);
