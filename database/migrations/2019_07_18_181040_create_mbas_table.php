@@ -17,7 +17,7 @@ class CreateMbasTable extends Migration
             'mbas', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name')->index();
-                $table->float('price_per_unit', 10, 2)->index()->default(0);
+                $table->unsignedBigInteger('price_per_unit')->index()->default(0);
                 $table->integer('available_unit')->index()->default(1);
                 // $table->integer('term')->index()->default(0);
                 $table->boolean('status')->default(true);

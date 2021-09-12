@@ -21,7 +21,7 @@ class CreatePaymentsTable extends Migration
             $table->string('payment_description')->default("awaiting payment");
 
             // from paystack
-            $table->float('amount_paid', 100, 2);
+            $table->unsignedBigInteger('amount_paid');
             $table->string('authorization_url')->nullable();
             $table->string('reference')->index();
             $table->string('access_code')->index()->nullable();

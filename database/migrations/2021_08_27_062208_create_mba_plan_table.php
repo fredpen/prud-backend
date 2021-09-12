@@ -17,7 +17,7 @@ class CreateMbaPlanTable extends Migration
             $table->id();
             $table->foreignId("mba_id")->index();
             $table->string("type")->nullable()->index();
-            $table->float("cost", 10, 2)->nullable()->index();
+            $table->unsignedBigInteger("cost")->nullable()->index();
             $table->integer("numbers_of_shares_you_get")->default(1)->index();
             $table->integer("tenure_in_months")->default(12)->index();
             $table->integer("roi_in_percentage")->default(23)->index();

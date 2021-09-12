@@ -17,7 +17,7 @@ class CreateWalletTable extends Migration
             $table->id();
             $table->foreignId('user_id')->index();
             $table->string('walletRef')->index()->unique();
-            $table->float('balance', 14, 2)->index()->default(0);
+            $table->unsignedBigInteger('balance')->index()->default(0);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade');

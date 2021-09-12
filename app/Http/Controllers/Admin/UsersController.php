@@ -24,12 +24,17 @@ class UsersController extends Controller
     public function all(Request $request)
     {
         $this->authorize('viewAny', User::class);
-        $users = $request->type ?  (new User())->getUsersBasedOnType($request->type) :  User::query();
+        $users = !$request->type ?
+            User::query() : (new User())->getUsersBasedOnType($request->type);
 
-        return $users->count() ?
-            ResponseHelper::sendSuccess($users
-                ->orderBy('updated_at', 'desc')
-                ->paginate(Constant::PERPAGE)) : ResponseHelper::notFound();
+        if (!$users->count()) {
+            return ResponseHelper::notFound();
+        }
+
+        $users = $users->orderBy('updated_at', 'desc');
+        $users = $request->all ? $users->get() : $users->paginate(Constant::PERPAGE);
+
+        return ResponseHelper::sendSuccess($users);
     }
 
 

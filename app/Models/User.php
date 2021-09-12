@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\UserTraits;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -116,7 +117,7 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany(Investments::class);
     }
 
-    public function getUsersBasedOnType(string $key): User
+    public function getUsersBasedOnType(string $key): Builder
     {
         $userTypes = [
             "trustees" => $this->trustees(),

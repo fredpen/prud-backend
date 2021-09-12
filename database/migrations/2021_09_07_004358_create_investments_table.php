@@ -22,7 +22,7 @@ class CreateInvestmentsTable extends Migration
             $table->integer('num_of_units')->default(1);
             $table->integer('tenure_in_months')->default(12);
             $table->integer('roi_in_percentage')->default(1);
-            $table->float('amount_paid', 16, 2)->nullable();
+            $table->unsignedBigInteger('amount_paid', 16, 2)->nullable();
             $table->enum('payment_status', [1, 2, 3, 4, 5])->default(1);
             $table->string('payment_description')->default('created');
 
