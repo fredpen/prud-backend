@@ -113,6 +113,7 @@ class UsersController extends Controller
             "id" => ["required", "exists:users,id"],
             'first_name' => ["sometimes", 'string', 'max:255', 'bail'],
             'surname' => ["sometimes", 'string', 'max:255', 'bail'],
+            'title' => ["sometimes", 'string', 'max:255', 'bail'],
             'address' => ["sometimes", 'string', 'max:255', 'bail'],
             'phone_number' => ["sometimes", 'numeric', "unique:users", 'bail'],
             'role_id' => ["sometimes", 'numeric', 'min:2', 'max:4'],
